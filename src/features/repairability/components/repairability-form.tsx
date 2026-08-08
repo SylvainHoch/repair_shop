@@ -3,6 +3,10 @@
 import { useMemo, useState } from "react";
 import { getObjectTypesForFamily } from "../config/object-catalog";
 import { getQuestionsForStep } from "../config/question-flow";
+import {
+  isSystematicallyRefusedObjectType,
+  systematicallyRefusedObjectLabels,
+} from "../config/refused-objects";
 import { getMainSymptoms } from "../config/symptom-map";
 import { isCareAccepted, requiresContactBeforeSubmit } from "../lib/decision";
 import type { IntakeConfig } from "../lib/intake-status";
@@ -59,6 +63,8 @@ const fieldLabels: Record<string, string> = {
   pickupCommitment: "Engagement de retrait",
 };
 
+const refusedObjectNames = Object.values(systematicallyRefusedObjectLabels);
+
 function isValidEmail(value: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 }
@@ -73,6 +79,10 @@ export function RepairabilityForm({ intake }: { intake: IntakeConfig }) {
   const questions = useMemo(() => getQuestionsForStep(step), [step]);
   const objectTypeOptions = useMemo(() => getObjectTypesForFamily(answers.objectFamily), [answers.objectFamily]);
   const mainSymptomOptions = useMemo(() => getMainSymptoms(answers.objectType), [answers.objectType]);
+  const selectedRefusedObject = isSystematicallyRefusedObjectType(answers.objectType);
+  const selectedRefusedObjectLabel = selectedRefusedObject
+    ? systematicallyRefusedObjectLabels[answers.objectType as keyof typeof systematicallyRefusedObjectLabels]
+    : undefined;
   const isAccepted = submitState.result ? isCareAccepted(submitState.result) : false;
   const shouldSubmitWithoutContact = submitState.result ? !requiresContactBeforeSubmit(submitState.result) : false;
 
@@ -373,6 +383,22 @@ export function RepairabilityForm({ intake }: { intake: IntakeConfig }) {
           </aside>
         )}
 
+        {step === 1 && (
+          <aside className="repair-alert repair-alert-warning">
+            <strong>Objets non pris en charge</strong>
+            <span>{refusedObjectNames.join(", ")}</span>
+          </aside>
+        )}
+
+        {step === 1 && selectedRefusedObject && (
+          <aside className="repair-alert repair-alert-danger" role="alert">
+            <strong>{selectedRefusedObjectLabel} n'est pas pris en charge.</strong>
+            <p style={{ margin: "4px 0 0" }}>
+              Cette catégorie est exclue du service. Choisissez un autre type d'objet pour continuer.
+            </p>
+          </aside>
+        )}
+
         {step === 5 ? (
           <section className="repair-score-card">
             <h2>Résultat de la vérification</h2>
@@ -438,7 +464,7 @@ export function RepairabilityForm({ intake }: { intake: IntakeConfig }) {
             <button
               type="button"
               className="repair-button repair-button-primary"
-              disabled={submitState.loading || !intake.isOpen}
+              disabled={submitState.loading || !intake.isOpen || (step === 1 && selectedRefusedObject)}
               onClick={() => {
                 if (!validateCurrentStep()) {
                   setSubmitState({
