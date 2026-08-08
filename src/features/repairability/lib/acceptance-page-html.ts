@@ -2,6 +2,8 @@ import type { ScoreResponse, SubmissionPayload } from "../types";
 import { isCareAccepted } from "./decision";
 
 const defaultDepositAddress = "Adresse du dépôt à compléter dans REPAIRABILITY_DROP_OFF_ADDRESS";
+const depositShelfInstructions = "Déposez l'objet sur l'étagère mise à disposition chez Oufticoop, dans l'entrée du magasin.";
+const depositLockCode = "1314";
 
 function escapeHtml(value: unknown): string {
   return String(value ?? "")
@@ -23,6 +25,8 @@ export function buildAcceptancePageHtml({
 }): string {
   const answers = payload.answers;
   const address = depositAddress?.trim() || defaultDepositAddress;
+  const mapUrl = `https://www.google.com/maps?q=${encodeURIComponent(address)}&output=embed`;
+  const mapLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
   const objectLabel = [answers.brand, answers.model, answers.objectDescription].filter(Boolean).join(" - ");
   const title = "Prise en charge validée";
 
@@ -134,6 +138,21 @@ export function buildAcceptancePageHtml({
         white-space: pre-line;
       }
 
+      .map {
+        width: 100%;
+        height: 220px;
+        margin-top: 14px;
+        border: 0;
+        border-radius: 10px;
+      }
+
+      .map-link {
+        display: inline-block;
+        margin-top: 10px;
+        color: var(--accent);
+        font-weight: 800;
+      }
+
       .meta {
         display: grid;
         gap: 10px;
@@ -191,7 +210,8 @@ export function buildAcceptancePageHtml({
             <li>Nettoyez l'objet et retirez les accessoires non nécessaires.</li>
             <li>Emballez-le de façon stable, surtout s'il contient du verre, une lame, une batterie ou une pièce mobile.</li>
             <li>Ajoutez un papier avec votre prénom, votre adresse email, la référence de soumission et la panne observée.</li>
-            <li>Déposez l'objet au point de dépôt pendant les horaires convenus.</li>
+            <li>${depositShelfInstructions}</li>
+            <li>Le code du cadenas est <strong>${depositLockCode}</strong>.</li>
             <li>Attendez le message de suivi avant de revenir chercher l'objet.</li>
           </ol>
           <p class="notice">
@@ -203,6 +223,8 @@ export function buildAcceptancePageHtml({
         <aside class="panel" aria-labelledby="address-title">
           <h2 id="address-title">Adresse de dépôt</h2>
           <address>${escapeHtml(address)}</address>
+          <iframe class="map" title="Carte du lieu de dépôt" src="${escapeHtml(mapUrl)}" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          <a class="map-link" href="${escapeHtml(mapLink)}" target="_blank" rel="noreferrer">Ouvrir l'itinéraire</a>
           <div class="meta">
             <div>
               <span>Référence</span>
@@ -211,10 +233,6 @@ export function buildAcceptancePageHtml({
             <div>
               <span>Objet</span>
               <strong>${escapeHtml(objectLabel || answers.objectType || "Objet à réparer")}</strong>
-            </div>
-            <div>
-              <span>Score</span>
-              <strong>${escapeHtml(result.repairabilityScore)}/100</strong>
             </div>
           </div>
         </aside>
@@ -235,10 +253,6 @@ function getRefusalReason(result: ScoreResponse): string {
 
   if (result.recommendedNextStep === "non_recommande") {
     return "Les informations fournies indiquent une probabilité de réparation trop faible dans ce cadre.";
-  }
-
-  if (result.repairabilityScore < 30) {
-    return "Le score de réparabilité est trop bas pour justifier un dépôt.";
   }
 
   return "La demande sort du périmètre de prise en charge actuel.";
@@ -449,10 +463,6 @@ export function buildRefusalPageHtml({
             <div>
               <span>Objet</span>
               <strong>${escapeHtml(objectLabel || answers.objectType || "Objet à réparer")}</strong>
-            </div>
-            <div>
-              <span>Score</span>
-              <strong>${escapeHtml(result.repairabilityScore)}/100</strong>
             </div>
           </div>
         </aside>

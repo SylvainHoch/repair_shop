@@ -18,11 +18,11 @@ const statusLabels: Record<IntakeStatus, { title: string; message: string }> = {
   },
   full: {
     title: "Trop d'objets en attente",
-    message: "J'ai deja trop d'objets en attente. Les nouvelles prises en charge reprendront bientot.",
+    message: "J'ai déjà trop d'objets en attente. Les nouvelles prises en charge reprendront bientôt.",
   },
   away: {
     title: "Absence temporaire",
-    message: "Je suis absent pour le moment. Les nouvelles prises en charge reprendront bientot.",
+    message: "Je suis absent pour le moment. Les nouvelles prises en charge reprendront bientôt.",
   },
 };
 

@@ -25,6 +25,7 @@ export async function POST(request: NextRequest) {
       locale: request.headers.get("accept-language") ?? undefined,
       userAgent: request.headers.get("user-agent") ?? undefined,
       formVersion: "1.0.0",
+      createReference: false,
     });
 
     const result = computeRepairabilityScore({

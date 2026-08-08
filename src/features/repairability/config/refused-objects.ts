@@ -8,13 +8,12 @@ export const systematicallyRefusedObjectTypes = [
 
 export const systematicallyRefusedObjectLabels: Record<(typeof systematicallyRefusedObjectTypes)[number], string> = {
   micro_ondes: "Micro-ondes",
-  ecran_plat: "Television",
+  ecran_plat: "Télévision",
   ordinateur_pc: "Ordinateur / PC",
   telephone_mobile: "Smartphone",
-  gros_appareil_maison: "Gros electromenager",
+  gros_appareil_maison: "Gros électroménager",
 };
 
 export function isSystematicallyRefusedObjectType(value?: string): boolean {
   return systematicallyRefusedObjectTypes.includes(value as (typeof systematicallyRefusedObjectTypes)[number]);
 }
-

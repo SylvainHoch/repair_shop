@@ -10,7 +10,7 @@ export default function ReparabilitePage() {
       <div className="form-route-nav">
         <Link href="/">← Retour à l'accueil</Link>
       </div>
-     
+
       <RepairabilityForm intake={intake} />
     </main>
   );

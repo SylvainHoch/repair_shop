@@ -38,15 +38,15 @@ export function validateSubmission(answers: RepairabilityAnswers): ValidationRes
   }
 
   if (typeof answers.email === "string" && answers.email.trim() !== "" && !isValidEmail(answers.email.trim())) {
-    errors.push("`email` doit etre une adresse valide.");
+    errors.push("`email` doit être une adresse valide.");
   }
 
   if (answers.consent !== true) {
-    errors.push("Le consentement a l'utilisation des donnees est obligatoire.");
+    errors.push("Le consentement à l'utilisation des données est obligatoire.");
   }
 
   if (answers.repairAttemptAcknowledgement !== true) {
-    errors.push("L'acceptation des limites de la tentative de reparation est obligatoire.");
+    errors.push("L'acceptation des limites de la tentative de réparation est obligatoire.");
   }
 
   if (answers.pickupCommitment !== true) {
@@ -54,11 +54,11 @@ export function validateSubmission(answers: RepairabilityAnswers): ValidationRes
   }
 
   if (typeof answers.estimatedAgeYears === "number" && answers.estimatedAgeYears < 0) {
-    errors.push("`estimatedAgeYears` doit etre positif.");
+    errors.push("`estimatedAgeYears` doit être positif.");
   }
 
   if (typeof answers.estimatedRepairBudget === "number" && answers.estimatedRepairBudget < 0) {
-    errors.push("`estimatedRepairBudget` doit etre positif.");
+    errors.push("`estimatedRepairBudget` doit être positif.");
   }
 
   return { isValid: errors.length === 0, errors };
@@ -75,11 +75,11 @@ export function validatePreviewSubmission(answers: RepairabilityAnswers): Valida
   }
 
   if (typeof answers.estimatedAgeYears === "number" && answers.estimatedAgeYears < 0) {
-    errors.push("`estimatedAgeYears` doit etre positif.");
+    errors.push("`estimatedAgeYears` doit être positif.");
   }
 
   if (typeof answers.estimatedRepairBudget === "number" && answers.estimatedRepairBudget < 0) {
-    errors.push("`estimatedRepairBudget` doit etre positif.");
+    errors.push("`estimatedRepairBudget` doit être positif.");
   }
 
   return { isValid: errors.length === 0, errors };

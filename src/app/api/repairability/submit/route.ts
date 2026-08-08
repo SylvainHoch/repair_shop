@@ -99,7 +99,12 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    const webhookRequest = buildWebhookRequest(payload, localScore);
+    const depositInstructions = {
+      location: process.env.REPAIRABILITY_DROP_OFF_ADDRESS?.trim() || "Oufticoop — adresse à renseigner",
+      shelf: "Déposez l'objet sur l'étagère mise à disposition chez Oufticoop, dans l'entrée du magasin.",
+      lockCode: "1314",
+    };
+    const webhookRequest = buildWebhookRequest(payload, localScore, depositInstructions);
     const webhookDelivery = await postToWebhook(webhookRequest);
     const result = webhookDelivery.result ?? localScore;
     const accepted = isCareAccepted(result);
@@ -108,7 +113,7 @@ export async function POST(request: NextRequest) {
         buildAcceptancePageHtml({
           payload,
           result,
-          depositAddress: process.env.REPAIRABILITY_DROP_OFF_ADDRESS,
+          depositAddress: depositInstructions.location,
         })
       : undefined;
     const refusalPageHtml = !accepted

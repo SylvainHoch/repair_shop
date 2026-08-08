@@ -84,17 +84,17 @@ export function computeRepairabilityScore({ answers, riskFlags }: ScoreInputs): 
 
   const explanations = [
     ...(isRefusedObjectType && refusedObjectLabel
-      ? [`Objet refuse systematiquement: ${refusedObjectLabel}.`]
+      ? [`Objet refusé systématiquement : ${refusedObjectLabel}.`]
       : []),
     `Identification produit: ${identificationScore}/15`,
-    `Clarite du diagnostic: ${diagnosticClarityScore}/20`,
-    `Contrainte securite: ${safetyScore}/20`,
-    "Demontage et intervention geres par l'atelier.",
+    `Clarté du diagnostic : ${diagnosticClarityScore}/20`,
+    `Contrainte de sécurité : ${safetyScore}/20`,
+    "Démontage et intervention gérés par l'atelier.",
     isRefusedObjectType
-      ? "Cette famille d'objet sort du perimetre de prise en charge."
+      ? "Cette famille d'objet sort du périmètre de prise en charge."
       : highRisk
-        ? "Un risque eleve est signale pour preparer une prise en charge securisee."
-        : "Aucun risque critique detecte.",
+        ? "Un risque élevé est signalé pour préparer une prise en charge sécurisée."
+        : "Aucun risque critique détecté.",
   ];
 
   const likelyFaultAreas = [

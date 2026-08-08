@@ -54,7 +54,7 @@ export const calibrationCases: CalibrationCase[] = [
   },
   {
     id: "high-risk-taille-haie",
-    label: "Outil electrique - odeur de brule + risque mecanique",
+    label: "Outil électrique — odeur de brûlé et risque mécanique",
     answers: {
       objectFamily: "bricolage",
       objectType: "outil_electrique",

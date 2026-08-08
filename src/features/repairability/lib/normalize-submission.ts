@@ -1,4 +1,5 @@
 import type { DerivedFacts, RepairabilityAnswers, SubmissionPayload } from "../types";
+import { createSubmissionReference } from "./submission-reference";
 
 function normalizeBoolean(input: unknown): boolean | undefined {
   if (typeof input === "boolean") return input;
@@ -87,10 +88,10 @@ export function deriveFacts(answers: RepairabilityAnswers): DerivedFacts {
 
 export function buildSubmissionPayload(
   answers: RepairabilityAnswers,
-  context: { locale?: string; userAgent?: string; formVersion?: string },
+  context: { locale?: string; userAgent?: string; formVersion?: string; createReference?: boolean },
 ): SubmissionPayload {
   return {
-    submissionId: crypto.randomUUID(),
+    submissionId: context.createReference === false ? "" : createSubmissionReference(),
     submittedAt: new Date().toISOString(),
     answers,
     derivedFacts: deriveFacts(answers),
