@@ -509,11 +509,11 @@ export function RepairabilityForm({ intake }: { intake: IntakeConfig }) {
             <h2>Demande envoyée</h2>
             {isAccepted ? (
               <>
-                <p>Merci, ta demande est bien transmise. Voici la procédure de dépôt de l'objet:</p>
+                <p>Merci, ta demande est acceptée. Un email contenant les consignes de dépôt vient de t'être envoyé.</p>
                 <ol style={{ margin: "4px 0 0 18px", padding: 0, lineHeight: 1.5 }}>
-                  <li>Emballe l'objet de façon sécurisée et propre.</li>
-                  <li>Ajoute un mot avec ton prénom, ton email, et la panne observée.</li>
-                  <li>Dépose l'objet sur l'étagère à disposition chez Oufticoop, dans l'entrée du magasin. Code du cadenas : 1314.</li>
+                  <li>Consulte l'email et suis les consignes pour déposer ton objet.</li>
+                  <li>Après le dépôt, clique sur le bouton de confirmation présent dans cet email.</li>
+                  <li>Vérifie tes courriers indésirables si tu ne trouves pas l'email.</li>
                 </ol>
               </>
             ) : (

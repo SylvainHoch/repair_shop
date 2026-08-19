@@ -2,8 +2,6 @@ import type { ScoreResponse, SubmissionPayload } from "../types";
 import { isCareAccepted } from "./decision";
 
 const defaultDepositAddress = "Adresse du dépôt à compléter dans REPAIRABILITY_DROP_OFF_ADDRESS";
-const depositShelfInstructions = "Déposez l'objet sur l'étagère mise à disposition chez Oufticoop, dans l'entrée du magasin.";
-const depositLockCode = "1314";
 
 function escapeHtml(value: unknown): string {
   return String(value ?? "")
@@ -199,23 +197,21 @@ export function buildAcceptancePageHtml({
         <h1>${title}</h1>
         <p class="summary">
           Bonjour ${escapeHtml(answers.firstName || "")}, votre demande entre dans le périmètre de réparation bénévole.
-          Vous pouvez déposer l'objet à l'adresse ci-dessous en suivant la procédure.
+          Un email vient de vous être envoyé avec les consignes de dépôt.
         </p>
       </section>
 
       <div class="grid">
         <section class="panel" aria-labelledby="procedure-title">
-          <h2 id="procedure-title">Procédure de dépôt</h2>
+          <h2 id="procedure-title">Prochaines étapes</h2>
           <ol>
-            <li>Nettoyez l'objet et retirez les accessoires non nécessaires.</li>
-            <li>Emballez-le de façon stable, surtout s'il contient du verre, une lame, une batterie ou une pièce mobile.</li>
-            <li>Ajoutez un papier avec votre prénom, votre adresse email, la référence de soumission et la panne observée.</li>
-            <li>${depositShelfInstructions}</li>
-            <li>Le code du cadenas est <strong>${depositLockCode}</strong>.</li>
-            <li>Attendez le message de suivi avant de revenir chercher l'objet.</li>
+            <li>Consultez l'email envoyé à l'adresse indiquée dans votre demande.</li>
+            <li>Suivez les consignes pour préparer et déposer votre objet.</li>
+            <li>Une fois l'objet déposé, cliquez sur le bouton de confirmation présent dans cet email.</li>
+            <li>Attendez ensuite le message de suivi avant de revenir chercher l'objet.</li>
           </ol>
           <p class="notice">
-            La prise en charge valide seulement le dépôt et le diagnostic. La réparation reste une tentative bénévole,
+            Vous ne trouvez pas l'email ? Vérifiez vos courriers indésirables. La réparation reste une tentative bénévole,
             sans garantie de résultat.
           </p>
         </section>
