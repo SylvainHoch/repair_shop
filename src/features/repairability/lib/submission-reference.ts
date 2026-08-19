@@ -1,12 +1,8 @@
-let lastReference = 0;
+import { randomUUID } from "node:crypto";
 
 /**
- * Produces a short, human-readable reference for a submission.
- *
- * This counter is scoped to the running application process. Connect it to a
- * persistent store before deploying on multiple instances or serverless hosts.
+ * Produces a globally unique reference for a submission.
  */
 export function createSubmissionReference(): string {
-  lastReference += 1;
-  return String(lastReference).padStart(5, "0");
+  return `SUB-${randomUUID()}`;
 }
