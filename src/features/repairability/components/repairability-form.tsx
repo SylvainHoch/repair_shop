@@ -18,8 +18,8 @@ const totalSteps = 6;
 const stepTitles: Record<number, string> = {
   1: "Identifier l'appareil",
   2: "Qualifier la panne",
-  3: "Symptômes observés",
-  4: "Vérification de sécurité",
+  3: "Sympt�mes observ�s",
+  4: "V�rification de s�curit�",
   5: "Prise en charge",
   6: "Contact",
 };
@@ -46,19 +46,19 @@ const fieldLabels: Record<string, string> = {
   objectType: "Type d'objet",
   objectTypeOther: "Type d'appareil (autre)",
   objectDescription: "Description libre de l'objet",
-  firstName: "Prénom",
+  firstName: "Pr�nom",
   email: "Email",
   brand: "Marque",
   failureWhen: "Apparition de la panne",
   stillPowersOn: "Etat d'allumage",
-  mainSymptom: "Symptôme principal",
+  mainSymptom: "Sympt�me principal",
   mainSymptomOther: "Description du symptome principal",
   circumstances: "Contexte de la panne",
   circumstancesOther: "Precision du contexte",
   secondarySymptomsOther: "Autres symptomes",
   visibleDamageOther: "Autres dommages visibles",
   replacementPartAvailability: "Disponibilite des pieces",
-  consent: "Consentement à l'utilisation des données",
+  consent: "Consentement � l'utilisation des donn�es",
   repairAttemptAcknowledgement: "Acceptation des limites de la tentative",
   pickupCommitment: "Engagement de retrait",
 };
@@ -87,11 +87,11 @@ export function RepairabilityForm({ intake }: { intake: IntakeConfig }) {
   const shouldSubmitWithoutContact = submitState.result ? !requiresContactBeforeSubmit(submitState.result) : false;
 
   function getRefusalExplanation(result: ScoreResponse): string {
-    if (result.riskLevel === "high") return "Un signal de sécurité nécessite l'avis d'un réparateur professionnel.";
+    if (result.riskLevel === "high") return "Un signal de s�curit� n�cessite l'avis d'un r�parateur professionnel.";
     if (result.recommendedNextStep === "professionnel_recommande") {
-      return "Cette panne nécessite un réparateur professionnel dans le cadre actuel.";
+      return "Cette panne n�cessite un r�parateur professionnel dans le cadre actuel.";
     }
-    return result.explanations[0] || "Cette demande sort du périmètre de prise en charge actuel.";
+    return result.explanations[0] || "Cette demande sort du p�rim�tre de prise en charge actuel.";
   }
 
   function updateAnswer(id: string, value: unknown) {
@@ -269,7 +269,7 @@ export function RepairabilityForm({ intake }: { intake: IntakeConfig }) {
     if (!validateCurrentStep()) {
       setSubmitState({
         loading: false,
-        error: "Merci de compléter les champs obligatoires avant de vérifier la prise en charge.",
+        error: "Merci de compl�ter les champs obligatoires avant de v�rifier la prise en charge.",
       });
       return;
     }
@@ -292,7 +292,7 @@ export function RepairabilityForm({ intake }: { intake: IntakeConfig }) {
       if (!response.ok || !data.result) {
         setSubmitState({
           loading: false,
-          error: data.error ?? "Erreur lors de la vérification de la prise en charge.",
+          error: data.error ?? "Erreur lors de la v�rification de la prise en charge.",
           details: data.details,
         });
         return;
@@ -311,9 +311,9 @@ export function RepairabilityForm({ intake }: { intake: IntakeConfig }) {
     (field) => answers[field] === "true",
   );
   const completionHints = [
-    answers.objectType ? `Type: ${String(answers.objectType)}` : "Type non renseigné",
-    answers.mainSymptom ? `Panne: ${String(answers.mainSymptom)}` : "Panne non renseignée",
-    answers.brand ? `Marque: ${String(answers.brand)}` : "Marque non renseignée",
+    answers.objectType ? `Type: ${String(answers.objectType)}` : "Type non renseign�",
+    answers.mainSymptom ? `Panne: ${String(answers.mainSymptom)}` : "Panne non renseign�e",
+    answers.brand ? `Marque: ${String(answers.brand)}` : "Marque non renseign�e",
   ];
 
   if (isFinalSubmitted && isAccepted && submitState.result?.acceptancePageHtml) {
@@ -340,13 +340,15 @@ export function RepairabilityForm({ intake }: { intake: IntakeConfig }) {
     <div className="repair-form-shell">
       <div className="repair-form-container">
         <section className="repair-form-header">
-          <p className="repair-form-kicker">Diagnostic guidé</p>
-          <h1>Vérifier la prise en charge</h1>
+          <p className="repair-form-kicker">Diagnostic guid�</p>
+          <h1>V�rifier la prise en charge</h1>
           <p>
-            Complète ce formulaire pour vérifier rapidement si ton appareil entre dans mon périmètre de réparation.
-            Si l'objet peut être pris en charge, tu pourras laisser tes coordonnées pour le déposer au lieu de dépôt:
-            j'effectuerai ensuite un diagnostic et une tentative de réparation.
+            Compl�te ce formulaire pour v�rifier rapidement si ton appareil entre dans mon p�rim�tre de r�paration.
+            Si l'objet peut �tre pris en charge, tu pourras laisser tes coordonn�es pour le d�poser au lieu de d�p�t:
+            j'effectuerai ensuite un diagnostic et une tentative de r�paration.
           </p>
+
+          <p>?? Je me d�place � v�lo : merci de privil�gier des objets qui tiennent dans un grand sac � dos ou une caisse en plastique.</p>
 
           <div className="repair-hint-row">
             {completionHints.map((hint) => (
@@ -359,7 +361,7 @@ export function RepairabilityForm({ intake }: { intake: IntakeConfig }) {
           <div className="repair-progress-block">
             <div className="repair-progress-labels">
               <span>
-                Étape {step}/{totalSteps}
+                �tape {step}/{totalSteps}
               </span>
               <span>{stepTitles[step]}</span>
             </div>
@@ -372,7 +374,7 @@ export function RepairabilityForm({ intake }: { intake: IntakeConfig }) {
 
         {dangerSignalDetected && (
           <aside className="repair-alert repair-alert-danger">
-            Signal de sécurité détecté. Coupe l'alimentation de l'appareil si nécessaire et attends une prise en charge sécurisée.
+            Signal de s�curit� d�tect�. Coupe l'alimentation de l'appareil si n�cessaire et attends une prise en charge s�curis�e.
           </aside>
         )}
 
@@ -394,26 +396,26 @@ export function RepairabilityForm({ intake }: { intake: IntakeConfig }) {
           <aside className="repair-alert repair-alert-danger" role="alert">
             <strong>{selectedRefusedObjectLabel} n'est pas pris en charge.</strong>
             <p style={{ margin: "4px 0 0" }}>
-              Cette catégorie est exclue du service. Choisissez un autre type d'objet pour continuer.
+              Cette cat�gorie est exclue du service. Choisissez un autre type d'objet pour continuer.
             </p>
           </aside>
         )}
 
         {step === 5 ? (
           <section className="repair-score-card">
-            <h2>Résultat de la vérification</h2>
+            <h2>R�sultat de la v�rification</h2>
             {submitState.result ? (
               <>
                 {isAccepted ? (
                   <p className="repair-score-success">
-                    Votre objet peut être pris en charge. La réparation reste une tentative bénévole, sans garantie de résultat.
+                    Votre objet peut �tre pris en charge. La r�paration reste une tentative b�n�vole, sans garantie de r�sultat.
                   </p>
                 ) : (
                   <p className="repair-score-danger">Objet non pris en charge : {getRefusalExplanation(submitState.result)}</p>
                 )}
               </>
             ) : (
-              <p className="repair-score-danger">Aucun résultat de prise en charge disponible.</p>
+              <p className="repair-score-danger">Aucun r�sultat de prise en charge disponible.</p>
             )}
           </section>
         ) : (
@@ -445,7 +447,7 @@ export function RepairabilityForm({ intake }: { intake: IntakeConfig }) {
               disabled={submitState.loading || !intake.isOpen}
               onClick={handleCheckEligibility}
             >
-              {submitState.loading ? "Vérification..." : "Vérifier la prise en charge"}
+              {submitState.loading ? "V�rification..." : "V�rifier la prise en charge"}
             </button>
           ) : step === 5 ? (
             <button
@@ -469,7 +471,7 @@ export function RepairabilityForm({ intake }: { intake: IntakeConfig }) {
                 if (!validateCurrentStep()) {
                   setSubmitState({
                     loading: false,
-                    error: "Merci de compléter les champs obligatoires avant de passer à l'étape suivante.",
+                    error: "Merci de compl�ter les champs obligatoires avant de passer � l'�tape suivante.",
                   });
                   return;
                 }
@@ -506,23 +508,23 @@ export function RepairabilityForm({ intake }: { intake: IntakeConfig }) {
 
         {isFinalSubmitted && submitState.payload && (
           <section className="repair-success-panel">
-            <h2>Demande envoyée</h2>
+            <h2>Demande envoy�e</h2>
             {isAccepted ? (
               <>
-                <p>Merci, ta demande est acceptée. Un email contenant les consignes de dépôt vient de t'être envoyé.</p>
+                <p>Merci, ta demande est accept�e. Un email contenant les consignes de d�p�t vient de t'�tre envoy�.</p>
                 <ol style={{ margin: "4px 0 0 18px", padding: 0, lineHeight: 1.5 }}>
-                  <li>Consulte l'email et suis les consignes pour déposer ton objet.</li>
-                  <li>Après le dépôt, clique sur le bouton de confirmation présent dans cet email.</li>
-                  <li>Vérifie tes courriers indésirables si tu ne trouves pas l'email.</li>
+                  <li>Consulte l'email et suis les consignes pour d�poser ton objet.</li>
+                  <li>Apr�s le d�p�t, clique sur le bouton de confirmation pr�sent dans cet email.</li>
+                  <li>V�rifie tes courriers ind�sirables si tu ne trouves pas l'email.</li>
                 </ol>
               </>
             ) : (
               <p>
-                Merci, ta demande est enregistrée. D'après les réponses, elle ne sera probablement pas prise en charge,
+                Merci, ta demande est enregistr�e. D'apr�s les r�ponses, elle ne sera probablement pas prise en charge,
                 mais elle est bien transmise pour suivi.
               </p>
             )}
-            <small>Référence de soumission : {submitState.payload.submissionId}</small>
+            <small>R�f�rence de soumission : {submitState.payload.submissionId}</small>
           </section>
         )}
       </div>
